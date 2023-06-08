@@ -102,7 +102,7 @@ MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operat
     // already at the end of the container
     if (it == this->container->elements.end())
     {
-        throw invalid_argument("already at the end of the container");
+        throw runtime_error("already at the end of the container");
     }
     // move to the next element
     ++it;
