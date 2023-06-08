@@ -1,66 +1,126 @@
 #include "MagicalContainer.hpp"
+#include <stdexcept>
 
 using namespace ariel;
 
-
 MagicalContainer::AscendingIterator::AscendingIterator()
-    : container(nullptr), position(0) {}
+    : container(nullptr), it()
+{
+}
 
-MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer& container)
-    : container(&container), position(0) {}
+MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer &container)
+    : container(&container), it(container.elements.begin())
+{
+}
 
-MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& other)
-    : container(other.container), position(other.position) {}
+MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator &other)
+    : container(other.container), it(other.it) {}
 
 MagicalContainer::AscendingIterator::~AscendingIterator() {}
 
-MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator=(const AscendingIterator& other) {
-    if (this != &other) {
-        container = other.container;
-        position = other.position;
+// this func can throw exception
+MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator=(const AscendingIterator &other)
+{
+    // if not the same containers throw exeption
+    if (this->container != other.container)
+    {
+        throw runtime_error("containers must be the same");
+    }
+    // only if different from this
+    if (this != &other)
+    {
+        this->it = other.it;
     }
     return *this;
 }
 
-bool MagicalContainer::AscendingIterator::operator==(const AscendingIterator& other) const {
-    return (container == other.container) && (position == other.position);
+// this func can throw exception
+bool MagicalContainer::AscendingIterator::operator==(const AscendingIterator &other) const
+{
+    // if not the same containers throw exeption
+    if (this->container != other.container)
+    {
+        throw runtime_error("containers must be the same");
+    }
+    // if it on the same place in the container
+    if (this->it == other.it)
+    {
+        return true;
+    }
+    return false;
 }
 
-bool MagicalContainer::AscendingIterator::operator!=(const AscendingIterator& other) const {
+bool MagicalContainer::AscendingIterator::operator!=(const AscendingIterator &other) const
+{
+    // if it is not equal
     return !(*this == other);
 }
 
-bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator& other) const {
-    return (container == other.container) && (position > other.position);
+// this func can throw exception
+bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator &other) const
+{
+    // if not the same container throw exeption
+    if (this->container != other.container)
+    {
+        throw runtime_error("containers must be the same");
+    }
+    // check about place and not the value
+    if (this->it > other.it)
+    {
+        return true;
+    }
+    return false;
 }
 
-bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator& other) const {
-    return (container == other.container) && (position < other.position);
+bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator &other) const
+{
+    // if (this!=other) and not(this>other) then -> this < other
+    return (this->operator!=(other)) && !(this->operator>(other));
 }
 
-bool MagicalContainer::AscendingIterator::operator>=(const AscendingIterator& other) const {
+bool MagicalContainer::AscendingIterator::operator>=(const AscendingIterator &other) const
+{
+    // if not(this<other) then -> this >= other
     return !(*this < other);
 }
 
-bool MagicalContainer::AscendingIterator::operator<=(const AscendingIterator& other) const {
+bool MagicalContainer::AscendingIterator::operator<=(const AscendingIterator &other) const
+{
+    // if not(this>other) then -> this <= other
     return !(*this > other);
 }
 
-int MagicalContainer::AscendingIterator::operator*() const {
-    return container->elements[position];
+int MagicalContainer::AscendingIterator::operator*() const
+{
+    // the value
+    return *it;
 }
 
-MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator++() {
-    ++position;
+// this func can throw exception
+MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator++()
+{
+    // already at the end of the container
+    if (it == this->container->elements.end())
+    {
+        throw invalid_argument("already at the end of the container");
+    }
+    // move to the next element
+    ++it;
     return *this;
 }
 
-MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin() {
-    return AscendingIterator(*container);
+MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin()
+{
+    // create new AscendingIterator - in the constructor start at begin
+    AscendingIterator iter(*container);
+    return iter;
 }
 
-MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() {
+MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end()
+{
     AscendingIterator iter(*container);
-    iter.position = container->elements.size();
+    // move the it to the end
+    int size = (*this->container).size();
+    iter.it = this->container->elements.begin() + size;
     return iter;
 }

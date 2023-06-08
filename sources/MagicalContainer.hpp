@@ -15,17 +15,18 @@ public:
     MagicalContainer();
     ~MagicalContainer();
     void addElement(int element);
+    void add_sorted(int element);
     void removeElement(int element);
     int size() const;
 
     class AscendingIterator {
     private:
-        const MagicalContainer* container;
-        size_t position;
+        MagicalContainer* container;
+        vector<int>::iterator it;
 
     public:
         AscendingIterator();
-        AscendingIterator(const MagicalContainer& container);
+        AscendingIterator(MagicalContainer& container);
         AscendingIterator(const AscendingIterator& other);
         ~AscendingIterator();
         AscendingIterator& operator=(const AscendingIterator& other);
