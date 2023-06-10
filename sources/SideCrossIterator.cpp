@@ -10,10 +10,11 @@ MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer &contain
     : container(&container), Start(container.elements.begin()), End(--(container.elements.end())), decider(0)
 {
     // if the container is empty
-    if (this->container->elements.size() == 0)
+    if (this->container->elements.empty())
     {
         this->Start = container.elements.end();
         this->End = container.elements.end();
+        this->decider = 2;
     }
 }
 
