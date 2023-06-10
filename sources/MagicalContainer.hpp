@@ -15,6 +15,7 @@ public:
     MagicalContainer();
     ~MagicalContainer();
     static bool isPrime(int number);
+    void handel_prime_ptr(int element);
     void addElement(int element);
     void add_sorted(int element);
     void removeElement(int element);
@@ -47,12 +48,14 @@ public:
     class SideCrossIterator {
     private:
         MagicalContainer* container;
-        vector<int>::iterator it;
+        vector<int>::iterator Start;
+        vector<int>::iterator End;
+        size_t decider;
 
     public:
         SideCrossIterator();
         SideCrossIterator(MagicalContainer& container);
-        SideCrossIterator(const SideCrossIterator& other);
+        SideCrossIterator(SideCrossIterator& other);
         ~SideCrossIterator();
         SideCrossIterator& operator=(const SideCrossIterator& other);
         bool operator==(const SideCrossIterator& other) const;

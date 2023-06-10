@@ -28,6 +28,21 @@ bool MagicalContainer::isPrime(int number)
     return true; // number is prime
 }
 
+// deals with prime_elem
+void MagicalContainer::handel_prime_ptr(int element)
+{
+    // remove all ptr from prime_elem
+    this->Prime_elem.clear();
+    // add them by the right order
+    for (size_t i = 0; i < this->elements.size(); ++i)
+    {
+        if (isPrime(this->elements[i]))
+        {
+            this->Prime_elem.emplace_back(&this->elements[i]);
+        }
+    }
+}
+
 void MagicalContainer::add_sorted(int element)
 {
     // no elements in vector yet
@@ -49,20 +64,9 @@ void MagicalContainer::add_sorted(int element)
         }
         vector<int>::iterator it = this->elements.begin() + int(i);
         this->elements.insert(it, element);
-
-        // deals with prime_elem
-
-        // remove all ptr from prime_elem
-        this->Prime_elem.clear();
-        // add them by the right order
-        for (i = 0; i < this->elements.size(); ++i)
-        {
-            if (isPrime(this->elements[i]))
-            {
-                this->Prime_elem.emplace_back(&this->elements[i]);
-            }
-        }
     }
+    // deals with prime_elem
+    handel_prime_ptr(element);
 }
 
 void MagicalContainer::addElement(int element)
@@ -97,6 +101,8 @@ void MagicalContainer::removeElement(int element)
     {
         throw runtime_error("elem not in the container");
     }
+    // deals with prime_elem
+    handel_prime_ptr(element);
 }
 
 int MagicalContainer::size() const
