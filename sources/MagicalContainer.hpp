@@ -9,6 +9,7 @@ namespace ariel {
 class MagicalContainer {
 private:
     vector<int> elements;
+    //point to the prime numbers only
     vector<int *> Prime_elem;
 
 public:

@@ -6,7 +6,7 @@
 using namespace ariel;
 using namespace std;
 
-MagicalContainer::MagicalContainer() {}
+MagicalContainer::MagicalContainer(){}
 
 MagicalContainer::~MagicalContainer() {}
 
@@ -22,10 +22,12 @@ bool MagicalContainer::isPrime(int number)
     {
         if (number % i == 0)
         {
-            return false; // number is divisible-> is not prime
+            // number is divisible-> is not prime
+            return false; 
         }
     }
-    return true; // number is prime
+    // number is prime
+    return true; 
 }
 
 // deals with prime_elem

@@ -7,7 +7,8 @@ MagicalContainer::PrimeIterator::PrimeIterator()
     : container(nullptr), it() {}
 
 MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& container)
-    : container(&container), it(container.Prime_elem.begin()) {}
+    : container(&container), it(container.Prime_elem.begin()) 
+    {}
 
 MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& other)
     : container(other.container), it(other.it) {}
